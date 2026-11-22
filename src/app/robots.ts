@@ -10,6 +10,10 @@ const AI_TRAINING_BOTS = [
 ];
 
 export default function robots(): MetadataRoute.Robots {
+  // Staging / temporary deployments: keep the whole site out of search engines.
+  if (process.env.NEXT_PUBLIC_NOINDEX === "1") {
+    return { rules: [{ userAgent: "*", disallow: "/" }] };
+  }
   return {
     rules: [
       { userAgent: "*", allow: "/", disallow: ["/admin", "/dashboard", "/api/"] },
