@@ -17,6 +17,13 @@ const poppins = localFont({
   display: "swap",
 });
 
+// Anton (hero headline) is self-hosted from @fontsource/anton, same as Poppins.
+const anton = localFont({
+  src: [{ path: "../../node_modules/@fontsource/anton/files/anton-latin-400-normal.woff2", weight: "400", style: "normal" }],
+  variable: "--font-anton",
+  display: "swap",
+});
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.kydmasong.net";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -47,7 +54,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   // Set the theme before first paint: saved choice, else the CMS default (light).
   const themeScript = `(function(){try{var t=localStorage.getItem('ktm-theme');if(t!=='light'&&t!=='dark')t=${JSON.stringify(s.default_theme)};document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();`;
   return (
-    <html lang="en" data-theme={s.default_theme} className={poppins.variable} suppressHydrationWarning>
+    <html lang="en" data-theme={s.default_theme} className={`${poppins.variable} ${anton.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         {/* Brand colours from Settings (validated as #RRGGBB, so safe to inline). */}

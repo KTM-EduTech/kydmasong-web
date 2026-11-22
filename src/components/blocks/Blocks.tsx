@@ -11,6 +11,7 @@ import { ImageCompare } from "./ImageCompare";
 import { SkillsFilter } from "./SkillsFilter";
 import { ProjectsFilter } from "./ProjectsFilter";
 import { ContactForm } from "./ContactForm";
+import { HeroFigures, type HeroAction, type HeroFigure } from "./HeroFigures";
 
 type D = Record<string, unknown>;
 const str = (d: D, k: string) => (typeof d[k] === "string" ? (d[k] as string).trim() : "");
@@ -57,7 +58,45 @@ function SectionHead({ d, center = false }: { d: D; center?: boolean }) {
 }
 
 /* ---------------------------------------------------------------- Hero */
-function Hero({ d, media, first }: { d: D; media: MediaMap; first: boolean }) {
+const safeHref = (u: string) => (/^(https?:\/\/|\/|#|mailto:)/.test(u) ? u : "");
+const safeImg = (u: string) => (/^https:\/\//.test(u) ? u : "");
+
+function heroAction(d: D, key: "primary" | "secondary"): HeroAction | null {
+  const label = str(d, `${key}_label`);
+  const url = safeHref(str(d, `${key}_url`));
+  if (!label || !url) return null;
+  const title = str(d, `${key}_modal_title`);
+  return {
+    label,
+    url,
+    variant: key === "primary" ? "gold" : "outline",
+    modal: title ? { title, text: str(d, `${key}_modal_text`), button: str(d, `${key}_modal_button`) } : null,
+  };
+}
+
+function Hero({ id, d, media, first }: { id: string; d: D; media: MediaMap; first: boolean }) {
+  if (d.layout === "figures") {
+    const figures: HeroFigure[] = arr<D>(d, "figures")
+      .map((f) => ({
+        caption: str(f, "caption"),
+        imageUrl: safeImg(str(f, "image_url")),
+        backgroundUrl: safeImg(str(f, "background_url")),
+        url: safeHref(str(f, "url")),
+      }))
+      .filter((f) => f.imageUrl);
+    const actions = [heroAction(d, "primary"), heroAction(d, "secondary")].filter(Boolean) as HeroAction[];
+    return (
+      <HeroFigures
+        id={`hero-${id.slice(0, 8)}`}
+        heading={str(d, "heading")}
+        highlight={str(d, "heading_highlight")}
+        intro={str(d, "intro")}
+        actions={actions}
+        figures={figures}
+        asH1={first}
+      />
+    );
+  }
   const before = media[str(d, "before_id")];
   const after = media[str(d, "after_id")];
   const Heading = first ? "h1" : "h2";
@@ -739,7 +778,7 @@ export function SectionRenderer({ sections, media }: { sections: Section[]; medi
         const d = (s.data ?? {}) as D;
         const first = i === 0;
         switch (s.type) {
-          case "hero": return <Hero key={s.id} d={d} media={media} first={first} />;
+          case "hero": return <Hero key={s.id} id={s.id} d={d} media={media} first={first} />;
           case "page_header": return <PageHeader key={s.id} d={d} media={media} first={first} />;
           case "intro_split": return <IntroSplit key={s.id} d={d} media={media} />;
           case "rich_text": return <RichTextBlock key={s.id} d={d} />;
