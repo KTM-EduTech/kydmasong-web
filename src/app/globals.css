@@ -1,26 +1,199 @@
 @import "tailwindcss";
 
+/* KTM EduTech design tokens. Only tints and shades of Navy #232450 and Gold #FEDC69. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --navy: #232450;
+  --gold: #fedc69;
+  --bg: #f7f7fb;
+  --bg-alt: #eeeef6;
+  --surface: #ffffff;
+  --ink: #232450;
+  --muted: rgb(35 36 80 / 0.72);
+  --line: rgb(35 36 80 / 0.12);
+  --on-gold: #232450;
+  --focus: #232450;
+  --band: #232450;
+  --on-band: #ffffff;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg: #14152f;
+  --bg-alt: #1b1c3d;
+  --surface: #232450;
+  --ink: #f5f5fa;
+  --muted: rgb(245 245 250 / 0.74);
+  --line: rgb(245 245 250 / 0.14);
+  --focus: #fedc69;
+  --band: #0e0f24;
+  --on-band: #f5f5fa;
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-navy: var(--navy);
+  --color-gold: var(--gold);
+  --color-bg: var(--bg);
+  --color-bg-alt: var(--bg-alt);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-on-gold: var(--on-gold);
+  --color-band: var(--band);
+  --color-on-band: var(--on-band);
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--navy);
+}
+
+.container-site {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 768px) {
+  .container-site { padding-inline: 2rem; }
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.eyebrow::before {
+  content: "";
+  width: 1.75rem;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--gold);
+}
+
+.display {
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+}
+.h2 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  font-size: clamp(1.9rem, 3.6vw, 2.75rem);
+}
+.h3 {
+  font-weight: 500;
+  line-height: 1.3;
+  font-size: clamp(1.2rem, 2vw, 1.45rem);
+}
+
+/* Gold underline that grows on hover */
+.link-underline {
+  background-image: linear-gradient(var(--gold), var(--gold));
+  background-size: 0% 3px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s ease;
+}
+.link-underline:hover,
+.link-underline:focus-visible {
+  background-size: 100% 3px;
+}
+
+/* Subtle dotted grid used behind the hero */
+.grid-bg {
+  background-image: radial-gradient(var(--line) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .marquee-track { animation: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+/* Rich text output */
+.rt { color: var(--ink); }
+.rt > * + * { margin-top: 1.1em; }
+.rt h2 { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.015em; line-height: 1.2; margin-top: 1.8em; }
+.rt h3 { font-size: 1.35rem; font-weight: 600; line-height: 1.3; margin-top: 1.5em; }
+.rt h4 { font-size: 1.1rem; font-weight: 600; margin-top: 1.3em; }
+.rt p, .rt li { color: var(--ink); }
+.rt a { text-decoration: underline; text-decoration-color: var(--gold); text-decoration-thickness: 3px; text-underline-offset: 4px; font-weight: 500; }
+.rt ul { list-style: disc; padding-left: 1.4em; }
+.rt ol { list-style: decimal; padding-left: 1.4em; }
+.rt li + li { margin-top: 0.35em; }
+.rt li::marker { color: var(--muted); }
+.rt blockquote { border-left: 4px solid var(--gold); padding: 0.25em 0 0.25em 1.2em; font-size: 1.15em; font-weight: 500; }
+.rt hr { border: 0; border-top: 1px solid var(--line); margin: 2.5em 0; }
+.rt img { border-radius: 14px; max-width: 100%; height: auto; }
+.rt img[data-align="center"] { margin-inline: auto; }
+.rt img[data-align="left"] { float: left; max-width: 45%; margin: 0.3em 1.5em 1em 0; }
+.rt img[data-align="right"] { float: right; max-width: 45%; margin: 0.3em 0 1em 1.5em; }
+.rt img[data-align="full"] { width: 100%; }
+.rt::after { content: ""; display: table; clear: both; }
+.rt table { width: 100%; border-collapse: collapse; font-size: 0.95em; }
+.rt th, .rt td { border: 1px solid var(--line); padding: 0.6em 0.8em; text-align: left; vertical-align: top; }
+.rt th { background: var(--bg-alt); font-weight: 600; }
+.rt div[data-youtube-video] { position: relative; aspect-ratio: 16 / 9; }
+.rt div[data-youtube-video] iframe { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 14px; }
+.rt .rt-callout { background: var(--bg-alt); border-left: 4px solid var(--gold); border-radius: 12px; padding: 1em 1.25em; }
+.rt code { background: var(--bg-alt); padding: 0.1em 0.35em; border-radius: 6px; font-size: 0.9em; }
+@media (max-width: 640px) {
+  .rt img[data-align="left"], .rt img[data-align="right"] { float: none; max-width: 100%; margin: 0; }
 }

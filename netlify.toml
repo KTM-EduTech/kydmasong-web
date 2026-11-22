@@ -1,0 +1,12 @@
+# Netlify build settings. Netlify's Next.js adapter (OpenNext) is detected automatically.
+# The app is portable: on Vercel this file is simply ignored.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Deploy previews and branch deploys do not use Netlify credits; production deploys do (15 each).
+# Content edits in /admin never need a deploy.
