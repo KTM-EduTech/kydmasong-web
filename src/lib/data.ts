@@ -88,6 +88,27 @@ export async function getPublishedPageSlugs(): Promise<{ slug: string; updated_a
   return data ?? [];
 }
 
+/**
+ * Published project/article slugs for build-time code (generateStaticParams,
+ * sitemap). These use the anonymous client directly and never touch
+ * draftMode(), which Next.js forbids outside a request.
+ */
+export async function getPublishedProjectSlugs(): Promise<{ slug: string; updated_at: string }[]> {
+  if (!isSupabaseConfigured) return [];
+  const { data } = await publicClient().from("projects").select("slug, updated_at").eq("status", "published").order("sort_order");
+  return data ?? [];
+}
+
+export async function getPublishedArticleSlugs(): Promise<{ slug: string; updated_at: string }[]> {
+  if (!isSupabaseConfigured) return [];
+  const { data } = await publicClient()
+    .from("articles")
+    .select("slug, updated_at")
+    .eq("status", "published")
+    .order("published_at", { ascending: false });
+  return data ?? [];
+}
+
 export async function getMediaMap(ids: Iterable<string>): Promise<MediaMap> {
   const list = [...new Set(ids)];
   if (!isSupabaseConfigured || list.length === 0) return {};

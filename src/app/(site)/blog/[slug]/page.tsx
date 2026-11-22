@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { getArticleBySlug, getArticles, getSettings, isPreview } from "@/lib/data";
+import { getArticleBySlug, getPublishedArticleSlugs, getSettings, isPreview } from "@/lib/data";
 import { mediaUrl } from "@/lib/media";
 import { renderRichText } from "@/lib/richtext/render";
 import { MediaImage } from "@/components/blocks/MediaImage";
@@ -14,7 +14,7 @@ export const revalidate = 86400;
 export async function generateStaticParams() {
   const s = await getSettings();
   if (!s.blog_enabled) return [];
-  const { articles } = await getArticles();
+  const articles = await getPublishedArticleSlugs();
   return articles.map((a) => ({ slug: a.slug }));
 }
 
