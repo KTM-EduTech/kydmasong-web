@@ -8,7 +8,7 @@
 | Database schema, RLS policies, `media` storage bucket | Applied (`supabase/migrations/0001`–`0004`) |
 | Migrated content | Seeded (`supabase/seed/seed.sql`) |
 | GitHub repository `KTM-EduTech/kydmasong-web` (private) | Code pushed to `main` |
-| Netlify site | Not yet created (waiting for approval) |
+| Netlify project `kydmasong-web` (team ktm-edutech, free) | Created; env vars set (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL=https://kydmasong-web.netlify.app`, `NEXT_PUBLIC_NOINDEX=1`). GitHub repository still to be linked in the Netlify UI |
 
 ## 2. Create your administrator account (one time)
 
@@ -36,6 +36,7 @@ Set these in Netlify → *Site configuration → Environment variables* (and in 
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Cloudflare → Turnstile → add widget (free) | No |
 | `TURNSTILE_SECRET_KEY` | Same widget | **Yes** |
 | `CRON_SECRET` | Any long random string you create | **Yes** |
+| `NEXT_PUBLIC_NOINDEX` | `1` on the temporary netlify.app site (hidden from search engines); remove when the real domain goes live | No |
 
 Never put the Supabase `service_role` key or the database password in the website environment.
 
@@ -44,7 +45,7 @@ add your Netlify preview URL (e.g. `https://kydmasong-web.netlify.app`) to *Redi
 
 ## 4. Netlify (free plan)
 
-1. Netlify → **Add new project → Import from Git → GitHub → KTM-EduTech/kydmasong-web**.
+1. Netlify → project **kydmasong-web** → *Project configuration → Build & deploy → Continuous deployment → Link repository* → GitHub → **KTM-EduTech/kydmasong-web**, branch `main`.
 2. Build settings are read from `netlify.toml` (`npm run build`, Node 22). Add the environment variables above.
 3. Deploy. The site is available at `https://<name>.netlify.app` for testing.
 4. **Domain** (only when you are ready to switch from the old site): Netlify → *Domain management →
