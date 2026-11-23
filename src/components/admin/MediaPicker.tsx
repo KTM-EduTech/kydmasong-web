@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
-import { FileText, ImageIcon, Search, Upload, X } from "lucide-react";
+import { FileText, ImageIcon, Search, Upload, X } from "@/components/icons";
 import { listMedia, registerMedia, type MediaItem } from "@/app/admin/actions/media";
 import { browserClient } from "@/lib/supabase/browser";
 import { Button, Field, Modal, inputCls, useToast } from "./ui";

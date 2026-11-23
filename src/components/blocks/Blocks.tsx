@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Mail, MapPin, Navigation } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Mail, MapPin, Navigation, Plus, Quote } from "@/components/icons";
 import type { Section } from "@/lib/types";
 import { mediaUrl, type MediaMap } from "@/lib/media";
 import { plainToHtml, renderRichText } from "@/lib/richtext/render";
@@ -11,7 +11,7 @@ import { ImageCompare } from "./ImageCompare";
 import { SkillsFilter } from "./SkillsFilter";
 import { ProjectsFilter } from "./ProjectsFilter";
 import { ContactForm } from "./ContactForm";
-import { HeroFigures, type HeroAction, type HeroFigure } from "./HeroFigures";
+import { HeroActions, HeroFigures, HighlightedHeading, type HeroAction, type HeroFigure } from "./HeroFigures";
 
 type D = Record<string, unknown>;
 const str = (d: D, k: string) => (typeof d[k] === "string" ? (d[k] as string).trim() : "");
@@ -74,20 +74,34 @@ function heroAction(d: D, key: "primary" | "secondary"): HeroAction | null {
   };
 }
 
+/** A media-library image (preferred) or, for content saved before 23 Nov 2026, a legacy https URL. */
+function heroImage(f: D, key: "image" | "background", media: MediaMap) {
+  const m = media[str(f, `${key}_id`)];
+  if (m) return { url: mediaUrl(m), alt: m.alt };
+  return { url: safeImg(str(f, `${key}_url`)), alt: "" };
+}
+
 function Hero({ id, d, media, first }: { id: string; d: D; media: MediaMap; first: boolean }) {
+  const actions = [heroAction(d, "primary"), heroAction(d, "secondary")].filter(Boolean) as HeroAction[];
+  const heroId = `hero-${id.slice(0, 8)}`;
   if (d.layout === "figures") {
     const figures: HeroFigure[] = arr<D>(d, "figures")
-      .map((f) => ({
-        caption: str(f, "caption"),
-        imageUrl: safeImg(str(f, "image_url")),
-        backgroundUrl: safeImg(str(f, "background_url")),
-        url: safeHref(str(f, "url")),
-      }))
+      .map((f) => {
+        const img = heroImage(f, "image", media);
+        const caption = str(f, "caption");
+        return {
+          caption,
+          imageUrl: img.url,
+          imageAlt: img.alt || caption,
+          backgroundUrl: heroImage(f, "background", media).url,
+          url: safeHref(str(f, "url")),
+        };
+      })
       .filter((f) => f.imageUrl);
-    const actions = [heroAction(d, "primary"), heroAction(d, "secondary")].filter(Boolean) as HeroAction[];
     return (
       <HeroFigures
-        id={`hero-${id.slice(0, 8)}`}
+        id={heroId}
+        eyebrow={str(d, "eyebrow")}
         heading={str(d, "heading")}
         highlight={str(d, "heading_highlight")}
         intro={str(d, "intro")}
@@ -99,7 +113,6 @@ function Hero({ id, d, media, first }: { id: string; d: D; media: MediaMap; firs
   }
   const before = media[str(d, "before_id")];
   const after = media[str(d, "after_id")];
-  const Heading = first ? "h1" : "h2";
   return (
     <section className="relative overflow-hidden">
       <div className="grid-bg pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top_left,black_20%,transparent_70%)]" aria-hidden />
@@ -110,12 +123,9 @@ function Hero({ id, d, media, first }: { id: string; d: D; media: MediaMap; firs
       <div className="container-site relative grid items-center gap-14 pb-20 pt-10 lg:grid-cols-[1.1fr_0.9fr] lg:pt-16">
         <div>
           {str(d, "eyebrow") && <p className="eyebrow mb-6">{str(d, "eyebrow")}</p>}
-          <Heading className="display">{str(d, "heading")}</Heading>
+          <HighlightedHeading as={first ? "h1" : "h2"} className="display" heading={str(d, "heading")} highlight={str(d, "heading_highlight")} />
           {str(d, "intro") && <p className="mt-7 max-w-xl text-lg text-muted md:text-xl">{str(d, "intro")}</p>}
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Btn href={str(d, "primary_url")} label={str(d, "primary_label")} />
-            <Btn href={str(d, "secondary_url")} label={str(d, "secondary_label")} variant="outline" />
-          </div>
+          <HeroActions actions={actions} id={heroId} className="mt-10 flex flex-wrap gap-3" />
         </div>
         {before && after ? (
           <ImageCompare
@@ -369,8 +379,8 @@ async function ServicesList({ d }: { d: D }) {
                     <span className="block text-2xl font-semibold tracking-tight transition group-hover:translate-x-1 md:text-4xl">{s.title}</span>
                     {s.summary && <span className="mt-2 block max-w-2xl text-muted">{s.summary}</span>}
                   </span>
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line transition group-open:rotate-45 group-open:bg-gold group-open:text-navy group-hover:border-ink" aria-hidden>
-                    +
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line transition group-open:rotate-45 group-open:bg-gold group-open:text-navy group-hover:border-ink">
+                    <Plus size={15} />
                   </span>
                 </summary>
                 <div className="grid gap-8 pt-8 md:ml-[4.5rem] md:grid-cols-[1fr_18rem]">
@@ -502,16 +512,14 @@ function Cards({ d }: { d: D }) {
 }
 
 /* ---------------------------------------------------------------- Quote */
-function Quote({ d }: { d: D }) {
+function PullQuote({ d }: { d: D }) {
   if (!str(d, "text")) return null;
   return (
     <section className="py-20 md:py-28">
       <Reveal className="container-site max-w-4xl">
         <figure>
-          <span className="block text-7xl font-semibold leading-none text-gold" aria-hidden>
-            “
-          </span>
-          <blockquote className="-mt-4 text-2xl font-medium leading-snug tracking-tight md:text-4xl">{str(d, "text")}</blockquote>
+          <Quote size={44} className="text-gold" />
+          <blockquote className="mt-6 text-2xl font-medium leading-snug tracking-tight md:text-4xl">{str(d, "text")}</blockquote>
           {str(d, "attribution") && <figcaption className="mt-6 font-medium text-muted">— {str(d, "attribution")}</figcaption>}
         </figure>
       </Reveal>
@@ -531,7 +539,7 @@ function Stats({ d }: { d: D }) {
           {items.map((s, i) => (
             <div key={i}>
               <dt className="text-on-band/70">{s.label}</dt>
-              <dd className="mt-2 text-5xl font-semibold tracking-tight text-gold">{s.value}</dd>
+              <dd className="mt-2 font-display text-5xl tracking-wide text-gold">{s.value}</dd>
             </div>
           ))}
         </dl>
@@ -790,7 +798,7 @@ export function SectionRenderer({ sections, media }: { sections: Section[]; medi
           case "skills": return <Skills key={s.id} d={d} />;
           case "experience": return <ExperienceBlock key={s.id} d={d} />;
           case "cards": return <Cards key={s.id} d={d} />;
-          case "quote": return <Quote key={s.id} d={d} />;
+          case "quote": return <PullQuote key={s.id} d={d} />;
           case "stats": return <Stats key={s.id} d={d} />;
           case "testimonials": return <Testimonials key={s.id} d={d} />;
           case "cta": return <Cta key={s.id} d={d} />;

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { Plus, Star } from "lucide-react";
+import { Plus, Star } from "@/components/icons";
 import clsx from "clsx";
 import { reorderFeaturedProjects, reorderProjects } from "@/app/admin/actions/content";
 import { SortableList } from "@/components/admin/Sortable";

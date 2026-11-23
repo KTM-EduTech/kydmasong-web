@@ -10,7 +10,7 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { GripVertical } from "lucide-react";
+import { GripVertical } from "@/components/icons";
 
 /** Drag-and-drop (and keyboard: Space, arrows, Space) sortable list. */
 export function SortableList<T extends { id: string }>({

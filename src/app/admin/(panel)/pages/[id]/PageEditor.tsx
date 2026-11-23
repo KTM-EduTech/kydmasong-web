@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { ArrowLeft, ChevronDown, ChevronRight, Copy, Eye, EyeOff, Flag, Plus, Save, Trash2 } from "lucide-react";
+import { ArrowLeft, ChevronDown, ChevronRight, Copy, Eye, EyeOff, Flag, Plus, Save, Trash2 } from "@/components/icons";
 import clsx from "clsx";
 import { savePage } from "@/app/admin/actions/pages";
 import { SECTION_BY_TYPE, SECTION_DEFS } from "@/lib/sections";

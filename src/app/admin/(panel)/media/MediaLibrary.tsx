@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { CloudDownload, Copy, FileText, FolderPlus, Link2, RefreshCw, Search, Trash2, Upload } from "lucide-react";
+import { CloudDownload, Copy, FileText, FolderPlus, Link2, RefreshCw, Search, Trash2, Upload } from "@/components/icons";
 import clsx from "clsx";
 import {
   addExternalMedia,

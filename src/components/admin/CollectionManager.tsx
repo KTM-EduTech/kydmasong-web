@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Pencil, Plus, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "@/components/icons";
 import { SortableList } from "./Sortable";
 import { Button, Modal, PageHeading, StatusBadge, useConfirm, useToast } from "./ui";
 

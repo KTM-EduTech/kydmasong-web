@@ -7,7 +7,7 @@ import {
   Briefcase,
   FileText,
   FolderKanban,
-  Image as ImageIcon,
+  ImageIcon,
   Inbox,
   LayoutDashboard,
   ListTree,
@@ -21,7 +21,7 @@ import {
   UserCog,
   Wrench,
   X,
-} from "lucide-react";
+} from "@/components/icons";
 import clsx from "clsx";
 import { signOut } from "@/app/admin/actions/auth";
 import { ThemeToggle } from "@/components/site/ThemeToggle";

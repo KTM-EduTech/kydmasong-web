@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2 } from "@/components/icons";
 import { deleteRedirect, saveRedirect } from "@/app/admin/actions/site";
 import type { Redirect } from "@/lib/types";
 import { Button, Modal, PageHeading, Select, TextInput, Toggle, useConfirm, useToast } from "@/components/admin/ui";

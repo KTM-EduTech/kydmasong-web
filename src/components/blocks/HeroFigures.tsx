@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useRef } from "react";
-import { ArrowRight, ArrowUpRight, X } from "lucide-react";
+import { ArrowRight, ArrowUpRight, X } from "@/components/icons";
 
-export type HeroFigure = { caption: string; imageUrl: string; backgroundUrl: string; url: string };
+export type HeroFigure = { caption: string; imageUrl: string; imageAlt: string; backgroundUrl: string; url: string };
 export type HeroAction = {
   label: string;
   url: string;
@@ -74,7 +74,7 @@ function Figure({ f, index }: { f: HeroFigure; index: number }) {
     <figure className="kyd-figure" style={{ animationDelay: `${200 + index * 160}ms` }}>
       {f.backgroundUrl && <span className="kyd-figure-bg" style={{ backgroundImage: `url("${f.backgroundUrl}")` }} aria-hidden />}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={f.imageUrl} alt={f.caption} loading="eager" decoding="async" />
+      <img src={f.imageUrl} alt={f.imageAlt} loading="eager" decoding="async" />
       {f.caption && <figcaption aria-hidden={!!f.url}>{f.caption}</figcaption>}
     </figure>
   );
@@ -92,8 +92,39 @@ function Figure({ f, index }: { f: HeroFigure; index: number }) {
   );
 }
 
+/** Heading with an optional highlighted phrase (must match part of the heading exactly). */
+export function HighlightedHeading({ as: Tag, className, heading, highlight }: { as: "h1" | "h2"; className: string; heading: string; highlight: string }) {
+  const at = highlight ? heading.indexOf(highlight) : -1;
+  return (
+    <Tag className={className}>
+      {at >= 0 ? (
+        <>
+          {heading.slice(0, at)}
+          <span className="kyd-hl">{highlight}</span>
+          {heading.slice(at + highlight.length)}
+        </>
+      ) : (
+        heading
+      )}
+    </Tag>
+  );
+}
+
+/** Hero buttons; each may open a pop-up before following its link. */
+export function HeroActions({ actions, id, className }: { actions: HeroAction[]; id: string; className: string }) {
+  if (!actions.length) return null;
+  return (
+    <div className={className}>
+      {actions.map((a, i) => (
+        <ActionButton key={i} action={a} id={`${id}-m${i}`} />
+      ))}
+    </div>
+  );
+}
+
 export function HeroFigures({
   id,
+  eyebrow,
   heading,
   highlight,
   intro,
@@ -102,6 +133,7 @@ export function HeroFigures({
   asH1,
 }: {
   id: string;
+  eyebrow: string;
   heading: string;
   highlight: string;
   intro: string;
@@ -109,8 +141,6 @@ export function HeroFigures({
   figures: HeroFigure[];
   asH1: boolean;
 }) {
-  const Heading = asH1 ? "h1" : "h2";
-  const at = highlight ? heading.indexOf(highlight) : -1;
   return (
     <section className="kyd-hero relative overflow-x-clip">
       {/* Same background as the standard hero: dotted grid + gold glow. */}
@@ -120,25 +150,10 @@ export function HeroFigures({
       </div>
       <div className="container-site relative grid items-center gap-12 pb-24 pt-10 text-center lg:grid-cols-2 lg:gap-16 lg:pb-24 lg:pt-10 lg:text-left">
         <div className="kyd-hero-content relative z-10">
-          <Heading className="kyd-hero-title">
-            {at >= 0 ? (
-              <>
-                {heading.slice(0, at)}
-                <span className="kyd-hl">{highlight}</span>
-                {heading.slice(at + highlight.length)}
-              </>
-            ) : (
-              heading
-            )}
-          </Heading>
+          {eyebrow && <p className="eyebrow mb-5">{eyebrow}</p>}
+          <HighlightedHeading as={asH1 ? "h1" : "h2"} className="kyd-hero-title" heading={heading} highlight={highlight} />
           {intro && <p className="mx-auto mt-6 max-w-xl text-lg text-muted md:text-xl lg:mx-0">{intro}</p>}
-          {actions.length > 0 && (
-            <div className="mt-9 flex flex-wrap justify-center gap-3 lg:justify-start">
-              {actions.map((a, i) => (
-                <ActionButton key={i} action={a} id={`${id}-m${i}`} />
-              ))}
-            </div>
-          )}
+          <HeroActions actions={actions} id={id} className="mt-9 flex flex-wrap justify-center gap-3 lg:justify-start" />
         </div>
         {figures.length > 0 && (
           <div className="kyd-figures">

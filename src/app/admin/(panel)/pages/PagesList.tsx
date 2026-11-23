@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Copy, Eye, Pencil, Plus, Trash2 } from "lucide-react";
+import { Copy, Eye, Pencil, Plus, Trash2 } from "@/components/icons";
 import { createPage, deletePage, duplicatePage, reorderPages, setPageStatus } from "@/app/admin/actions/pages";
 import { Button, Modal, PageHeading, StatusBadge, TextInput, useConfirm, useToast } from "@/components/admin/ui";
 import { SortableList } from "@/components/admin/Sortable";

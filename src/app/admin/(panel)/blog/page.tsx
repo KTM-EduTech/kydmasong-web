@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Plus } from "@/components/icons";
 import { requireAdmin } from "@/lib/auth";
 import { getSettings } from "@/lib/data";
 import { PageHeading, StatusBadge } from "@/components/admin/ui";

@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck } from "@/components/icons";
 import { browserClient } from "@/lib/supabase/browser";
 import { Button, Card, PageHeading, TextInput, useConfirm, useToast } from "@/components/admin/ui";
 

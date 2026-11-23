@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { getSettings } from "@/lib/data";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 import "./globals.css";
 
 // Poppins is self-hosted from @fontsource/poppins: no request to Google at runtime.
@@ -17,11 +18,13 @@ const poppins = localFont({
   display: "swap",
 });
 
-// Anton (hero headline) is self-hosted from @fontsource/anton, same as Poppins.
+// Anton: secondary display face (hero title, figure captions, pop-up titles, statistics).
+// Not preloaded: the browser only downloads it on pages that actually render display text.
 const anton = localFont({
   src: [{ path: "../../node_modules/@fontsource/anton/files/anton-latin-400-normal.woff2", weight: "400", style: "normal" }],
   variable: "--font-anton",
   display: "swap",
+  preload: false,
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.kydmasong.net";

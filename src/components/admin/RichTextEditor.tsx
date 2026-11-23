@@ -8,21 +8,22 @@ import {
   Bold,
   Heading2,
   Heading3,
-  Image as ImageIcon,
+  ImageIcon,
   Italic,
   Link2,
+  Plus,
   List,
   ListOrdered,
   Minus,
   Quote,
   Redo2,
   StickyNote,
-  Table as TableIcon,
-  Underline as UnderlineIcon,
+  TableIcon,
+  UnderlineIcon,
   Undo2,
   Unlink,
-  Video as YoutubeIcon,
-} from "lucide-react";
+  YoutubeIcon,
+} from "@/components/icons";
 import clsx from "clsx";
 import { richTextExtensions } from "@/lib/richtext/extensions";
 import { MediaPickerModal } from "./MediaPicker";
@@ -165,13 +166,13 @@ export function RichTextEditor({ label, value, onChange, help }: Props) {
 }
 
 function TableTools({ editor }: { editor: Editor }) {
-  const b = "rounded-md border border-line px-2 py-1 text-xs font-medium hover:bg-bg-alt";
+  const b = "inline-flex items-center gap-1 rounded-md border border-line px-2 py-1 text-xs font-medium hover:bg-bg-alt";
   return (
     <div className="flex flex-wrap gap-1.5 border-b border-line bg-bg-alt/60 px-3 py-2">
-      <button type="button" className={b} onClick={() => editor.chain().focus().addRowAfter().run()}>+ Row</button>
-      <button type="button" className={b} onClick={() => editor.chain().focus().addColumnAfter().run()}>+ Column</button>
-      <button type="button" className={b} onClick={() => editor.chain().focus().deleteRow().run()}>− Row</button>
-      <button type="button" className={b} onClick={() => editor.chain().focus().deleteColumn().run()}>− Column</button>
+      <button type="button" className={b} onClick={() => editor.chain().focus().addRowAfter().run()}><Plus size={11} /> Row</button>
+      <button type="button" className={b} onClick={() => editor.chain().focus().addColumnAfter().run()}><Plus size={11} /> Column</button>
+      <button type="button" className={b} onClick={() => editor.chain().focus().deleteRow().run()}><Minus size={11} /> Row</button>
+      <button type="button" className={b} onClick={() => editor.chain().focus().deleteColumn().run()}><Minus size={11} /> Column</button>
       <button type="button" className={b} onClick={() => editor.chain().focus().toggleHeaderRow().run()}>Header row</button>
       <button type="button" className={`${b} text-red-700`} onClick={() => editor.chain().focus().deleteTable().run()}>Delete table</button>
     </div>

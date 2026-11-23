@@ -49,3 +49,14 @@ Redirects: `/contact → /contact-us`, `/home → /`, `/dashboard → /admin`, `
 CloudFront host. Use *Media library → Copy into library* on each (especially the CloudFront ones, which
 may disappear with the old site). Work-experience school logos were not migrated (their URLs were not
 readable); upload them in *Work experience*.
+
+## 23 Nov 2026: design decisions (branch `design/figures-fontawesome`)
+
+- Homepage hero keeps the **figures** layout permanently. Figure images are now media-library fields
+  (`image_id`, `background_id`); the current live URLs still render. Optional script to move the live
+  data to media ids: `supabase/manual/2026-11-23_hero_figures_to_media.sql` (not yet run).
+- Icons: Lucide removed; **Font Awesome** (free solid/regular/brands, SVG) via `src/components/icons.tsx`.
+  Footer social links now show brand icons.
+- Fonts: Anton is the approved display font, no longer preloaded on every page.
+- Logo: `ktm-logo gs.png` everywhere (seed updated to match the live setting).
+- See `docs/DESIGN-SYSTEM.md`.
