@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUp, ArrowUpRight, Mail, MapPin, Navigation } from "lucide-react";
+import { ArrowUp, Mail, MapPin, Navigation, SocialIcon } from "@/components/icons";
 import type { ResolvedNavItem } from "@/lib/types";
 import type { SiteSettings } from "@/lib/settings";
 
@@ -77,11 +77,11 @@ export function Footer({ settings: s, menus }: { settings: SiteSettings; menus: 
                       href={so.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 rounded-full border border-on-band/20 px-3.5 py-1.5 text-sm text-on-band/85 transition hover:border-gold hover:bg-gold hover:text-navy"
+                      aria-label={`${so.platform} (opens in a new tab)`}
+                      title={so.platform}
+                      className="grid h-10 w-10 place-items-center rounded-full border border-on-band/20 text-on-band/85 transition hover:border-gold hover:bg-gold hover:text-navy"
                     >
-                      {so.platform}
-                      <ArrowUpRight size={13} aria-hidden />
-                      <span className="sr-only"> (opens in a new tab)</span>
+                      <SocialIcon platform={so.platform} size={17} />
                     </a>
                   </li>
                 ))}

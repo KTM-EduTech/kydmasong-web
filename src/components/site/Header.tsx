@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, Menu, X, ArrowUpRight } from "lucide-react";
+import { ChevronDown, Menu, X, ArrowUpRight } from "@/components/icons";
 import type { ResolvedNavItem } from "@/lib/types";
 import { ThemeToggle } from "./ThemeToggle";
 

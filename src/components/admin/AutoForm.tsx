@@ -1,5 +1,5 @@
 "use client";
-import { ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Plus, Trash2 } from "@/components/icons";
 import type { Field } from "@/lib/sections";
 import { MediaField } from "./MediaPicker";
 import { RichTextEditor } from "./RichTextEditor";
@@ -10,9 +10,17 @@ type Data = Record<string, unknown>;
 /** Renders an editable form for a list of field definitions (used by page sections). */
 export function AutoForm({ fields, value, onChange, mediaUrls }: { fields: Field[]; value: Data; onChange: (v: Data) => void; mediaUrls: Record<string, string> }) {
   const set = (k: string, v: unknown) => onChange({ ...value, [k]: v });
+  // A select with no saved value shows (and behaves as) its first option.
+  const current = (key: string) => {
+    const v = value[key];
+    if (typeof v === "string" && v) return v;
+    const f = fields.find((x) => x.key === key);
+    return f?.type === "select" ? f.options[0]?.value ?? "" : "";
+  };
+  const visible = fields.filter((f) => !f.showIf || f.showIf.equals.includes(current(f.showIf.key)));
   return (
     <div className="space-y-4">
-      {fields.map((f) => (
+      {visible.map((f) => (
         <FieldInput key={f.key} field={f} value={value[f.key]} onChange={(v) => set(f.key, v)} mediaUrls={mediaUrls} />
       ))}
     </div>

@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { Archive, Inbox, Mail, Trash2 } from "lucide-react";
+import { Archive, Inbox, Mail, Trash2 } from "@/components/icons";
 import clsx from "clsx";
 import { deleteEnquiry, setEnquiryStatus } from "@/app/admin/actions/site";
 import type { ContactSubmission } from "@/lib/types";

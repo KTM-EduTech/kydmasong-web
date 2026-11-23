@@ -1,7 +1,7 @@
 "use client";
 import Script from "next/script";
 import { useActionState } from "react";
-import { Send } from "lucide-react";
+import { Send } from "@/components/icons";
 import { submitContact, type ContactState } from "@/app/actions/contact";
 
 const initial: ContactState = { ok: false, message: "" };

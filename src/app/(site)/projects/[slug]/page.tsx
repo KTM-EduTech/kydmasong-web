@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "@/components/icons";
 import { getProjectBySlug, getPublishedProjectSlugs } from "@/lib/data";
 import { mediaUrl } from "@/lib/media";
 import { renderRichText } from "@/lib/richtext/render";

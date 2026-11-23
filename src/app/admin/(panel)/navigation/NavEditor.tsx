@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { ArrowLeftToLine, ArrowRightToLine, Plus, Save, Trash2 } from "lucide-react";
+import { ArrowLeftToLine, ArrowRightToLine, Plus, Save, Trash2 } from "@/components/icons";
 import clsx from "clsx";
 import { saveMenu } from "@/app/admin/actions/site";
 import type { NavItem } from "@/lib/types";

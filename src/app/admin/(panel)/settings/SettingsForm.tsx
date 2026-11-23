@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Plus, Save, Trash2 } from "lucide-react";
+import { Plus, Save, Trash2 } from "@/components/icons";
 import { saveSettings } from "@/app/admin/actions/site";
 import type { SiteSettings } from "@/lib/settings";
 import { MediaPickerModal } from "@/components/admin/MediaPicker";

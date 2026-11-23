@@ -4,17 +4,21 @@
  * Adding a section type = add it here + add a renderer in components/blocks.
  */
 
+/** Show a field only when another (select) field has one of these values. */
+export type ShowIf = { key: string; equals: string[] };
+
+type Base = { key: string; label: string; help?: string; showIf?: ShowIf };
 export type Field =
-  | { key: string; label: string; type: "text"; max?: number; required?: boolean; help?: string }
-  | { key: string; label: string; type: "textarea"; max?: number; help?: string }
-  | { key: string; label: string; type: "richtext"; help?: string }
-  | { key: string; label: string; type: "url"; help?: string }
-  | { key: string; label: string; type: "media"; help?: string }
-  | { key: string; label: string; type: "boolean"; help?: string }
-  | { key: string; label: string; type: "number"; min?: number; max?: number; help?: string }
-  | { key: string; label: string; type: "select"; options: { value: string; label: string }[]; help?: string }
-  | { key: string; label: string; type: "strings"; help?: string }
-  | { key: string; label: string; type: "items"; fields: Field[]; itemLabel: string; help?: string };
+  | (Base & { type: "text"; max?: number; required?: boolean })
+  | (Base & { type: "textarea"; max?: number })
+  | (Base & { type: "richtext" })
+  | (Base & { type: "url" })
+  | (Base & { type: "media" })
+  | (Base & { type: "boolean" })
+  | (Base & { type: "number"; min?: number; max?: number })
+  | (Base & { type: "select"; options: { value: string; label: string }[] })
+  | (Base & { type: "strings" })
+  | (Base & { type: "items"; fields: Field[]; itemLabel: string });
 
 export type SectionDef = {
   type: string;
@@ -33,48 +37,50 @@ export const SECTION_DEFS: SectionDef[] = [
   {
     type: "hero",
     name: "Hero",
-    description: "Large headline with buttons and an optional before/after image slider.",
+    description: "Large headline with buttons, optional pop-ups, and either two figure cards (homepage design) or a before/after image slider.",
     fields: [
-      { key: "eyebrow", label: "Small label above the heading", type: "text", max: 60 },
-      { key: "heading", label: "Heading", type: "text", max: 120, required: true },
-      { key: "heading_highlight", label: "Highlighted word(s) in the heading", type: "text", max: 60, help: "Must match part of the heading exactly, e.g. Innovation. Shown in gold." },
-      { key: "intro", label: "Introduction", type: "textarea", max: 400 },
-      ...link("primary", "Primary button"),
-      ...link("secondary", "Secondary button"),
       {
         key: "layout",
-        label: "Right-hand side",
+        label: "Layout",
         type: "select",
+        // "slider" stays first: older sections without a layout value render as the slider.
         options: [
           { value: "slider", label: "Before/after image slider" },
-          { value: "figures", label: "Two figure cards (Teacher / Developer style)" },
+          { value: "figures", label: "Two figure cards (homepage design)" },
         ],
       },
-      { key: "before_id", label: "Slider image: left (before)", type: "media" },
-      { key: "before_label", label: "Left image label", type: "text", max: 30 },
-      { key: "after_id", label: "Slider image: right (after)", type: "media" },
-      { key: "after_label", label: "Right image label", type: "text", max: 30 },
+      { key: "eyebrow", label: "Small label above the heading", type: "text", max: 60 },
+      { key: "heading", label: "Heading", type: "text", max: 120, required: true },
+      { key: "heading_highlight", label: "Highlighted word(s) in the heading", type: "text", max: 60, help: "Must match part of the heading exactly, e.g. Innovation." },
+      { key: "intro", label: "Introduction", type: "textarea", max: 400 },
+      ...link("primary", "Primary button"),
+      { key: "primary_modal_title", label: "Primary button pop-up: title", type: "text", max: 60, help: "Optional. If set, the button opens a pop-up first; its button then goes to the primary link." },
+      { key: "primary_modal_text", label: "Primary button pop-up: text", type: "textarea", max: 300 },
+      { key: "primary_modal_button", label: "Primary button pop-up: button label", type: "text", max: 40 },
+      ...link("secondary", "Secondary button"),
+      { key: "secondary_modal_title", label: "Secondary button pop-up: title", type: "text", max: 60, help: "Optional. If set, the button opens a pop-up first; its button then goes to the secondary link." },
+      { key: "secondary_modal_text", label: "Secondary button pop-up: text", type: "textarea", max: 300 },
+      { key: "secondary_modal_button", label: "Secondary button pop-up: button label", type: "text", max: 40 },
       {
         key: "figures",
         label: "Figure cards",
         type: "items",
         itemLabel: "Figure",
-        help: "Used when the right-hand side is set to figure cards. Up to two look best.",
+        help: "Two cards look best. Portraits work best as PNGs with a transparent background.",
+        showIf: { key: "layout", equals: ["figures"] },
         fields: [
           { key: "caption", label: "Caption", type: "text", max: 30 },
-          { key: "image_url", label: "Cut-out portrait (PNG with transparent background)", type: "url" },
-          { key: "background_url", label: "Card background image", type: "url" },
+          { key: "image_id", label: "Portrait (cut-out PNG)", type: "media", help: "The image's alt text from the media library is used; the caption is the fallback." },
+          { key: "background_id", label: "Card background image", type: "media" },
           { key: "url", label: "Link when clicked (optional)", type: "url" },
         ],
       },
-      { key: "primary_modal_title", label: "Primary button pop-up: title", type: "text", max: 60, help: "Leave empty for the button to go straight to its link." },
-      { key: "primary_modal_text", label: "Primary button pop-up: text", type: "textarea", max: 300 },
-      { key: "primary_modal_button", label: "Primary button pop-up: button label", type: "text", max: 40 },
-      { key: "secondary_modal_title", label: "Secondary button pop-up: title", type: "text", max: 60, help: "Leave empty for the button to go straight to its link." },
-      { key: "secondary_modal_text", label: "Secondary button pop-up: text", type: "textarea", max: 300 },
-      { key: "secondary_modal_button", label: "Secondary button pop-up: button label", type: "text", max: 40 },
+      { key: "before_id", label: "Slider image: left (before)", type: "media", showIf: { key: "layout", equals: ["slider"] } },
+      { key: "before_label", label: "Left image label", type: "text", max: 30, showIf: { key: "layout", equals: ["slider"] } },
+      { key: "after_id", label: "Slider image: right (after)", type: "media", showIf: { key: "layout", equals: ["slider"] } },
+      { key: "after_label", label: "Right image label", type: "text", max: 30, showIf: { key: "layout", equals: ["slider"] } },
     ],
-    defaults: { heading: "New hero" },
+    defaults: { heading: "New hero", layout: "figures", figures: [] },
   },
   {
     type: "page_header",

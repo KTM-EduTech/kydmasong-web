@@ -1,5 +1,5 @@
 "use client";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2 } from "@/components/icons";
 import type { LinkItem } from "@/lib/types";
 import { Button, Field, inputCls } from "./ui";
 

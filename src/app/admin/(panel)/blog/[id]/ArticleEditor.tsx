@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ArrowLeft, Eye, Save, Trash2 } from "lucide-react";
+import { ArrowLeft, Eye, Save, Trash2 } from "@/components/icons";
 import { deleteArticle, saveArticle } from "@/app/admin/actions/content";
 import type { Article } from "@/lib/types";
 import { MediaField } from "@/components/admin/MediaPicker";

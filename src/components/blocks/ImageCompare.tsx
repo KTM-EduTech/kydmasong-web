@@ -1,5 +1,6 @@
 "use client";
 import { useRef, useState } from "react";
+import { ArrowsLeftRight } from "@/components/icons";
 
 /** Accessible before/after slider: drag, click, or use the keyboard (range input). */
 export function ImageCompare({
@@ -50,7 +51,7 @@ export function ImageCompare({
       )}
       <div className="pointer-events-none absolute inset-y-0 w-1 -translate-x-1/2 bg-gold" style={{ left: `${pos}%` }}>
         <div className="absolute top-1/2 left-1/2 grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-4 border-gold bg-navy text-gold shadow-lg">
-          <span aria-hidden className="text-lg font-bold">⇆</span>
+          <ArrowsLeftRight size={18} />
         </div>
       </div>
       <label className="sr-only" htmlFor="compare-range">

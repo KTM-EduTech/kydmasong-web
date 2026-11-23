@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useCallback, useContext, useEffect, useId, useRef, useState } from "react";
-import { AlertTriangle, CheckCircle2, X } from "lucide-react";
+import { AlertTriangle, CheckCircle2, X } from "@/components/icons";
 import clsx from "clsx";
 
 /* ---------------------------------------------------------------- Toasts */

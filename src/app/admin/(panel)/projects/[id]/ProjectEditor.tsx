@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ArrowLeft, Eye, Plus, Save, Trash2, X } from "lucide-react";
+import { ArrowLeft, Eye, Plus, Save, Trash2, X } from "@/components/icons";
 import { deleteProject, saveProject } from "@/app/admin/actions/content";
 import type { Project } from "@/lib/types";
 import { LinksEditor } from "@/components/admin/LinksEditor";

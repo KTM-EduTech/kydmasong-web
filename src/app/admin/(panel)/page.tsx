@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AlertTriangle, FilePlus2, FolderPlus, Inbox, Newspaper, Settings, Upload } from "lucide-react";
+import { AlertTriangle, FilePlus2, FolderPlus, Inbox, Newspaper, Settings, Upload } from "@/components/icons";
 import { requireAdmin } from "@/lib/auth";
 import { PageHeading } from "@/components/admin/ui";
 

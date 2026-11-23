@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Check, Pencil, Trash2 } from "lucide-react";
+import { Check, Pencil, Trash2 } from "@/components/icons";
 import { deleteTaxonomy, saveTaxonomy } from "@/app/admin/actions/content";
 import type { Category, Tag } from "@/lib/types";
 import { Button, Card, PageHeading, inputCls, useConfirm, useToast } from "@/components/admin/ui";

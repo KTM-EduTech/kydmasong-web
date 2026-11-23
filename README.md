@@ -44,6 +44,8 @@ Checks: `npx tsc --noEmit`, `npm run lint`, `npm run build`.
 - [docs/ADMIN-GUIDE.md](docs/ADMIN-GUIDE.md): using the dashboard
 - [docs/MIGRATION-LOG.md](docs/MIGRATION-LOG.md): what was migrated from the old site and what still needs review
 - [docs/TESTING.md](docs/TESTING.md): what has been tested and the pre-launch checklist
+- [docs/DESIGN-SYSTEM.md](docs/DESIGN-SYSTEM.md): colours, fonts, icons (Font Awesome), logo and hero rules
+- [CLAUDE.md](CLAUDE.md): working rules for AI coding sessions
 
 ## Security in brief
 
