@@ -14,7 +14,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
   ]);
   return (
     <AdminDataProvider value={{ pages: pages ?? [] }}>
-      <AdminShell email={ctx.email} newEnquiries={newEnquiries ?? 0} blogEnabled={settings.blog_enabled} siteName={settings.site_name}>
+      <AdminShell email={ctx.email} newEnquiries={newEnquiries ?? 0} blogEnabled={settings.blog_enabled} siteName={settings.site_name} logoUrl={settings.logo_url} logoAlt={settings.logo_alt}>
         {children}
       </AdminShell>
     </AdminDataProvider>

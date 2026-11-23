@@ -41,8 +41,8 @@ light (default) and dark themes (`[data-theme="dark"]`).
 ## Logo
 
 - The logo is **`ktm-logo gs.png`** (ImageKit, `KTM EduTech Images/`), set in *Admin → Settings → Logo*.
-- The header, footer and admin login all read `settings.logo_url`; never hard-code a logo path in a
-  component. To change the logo, change the setting.
+- The header, footer, admin login and admin sidebar all read `settings.logo_url`; never hard-code a
+  logo path in a component. To change the logo, change the setting.
 
 ## Homepage hero ("figures" layout)
 
@@ -56,6 +56,11 @@ light (default) and dark themes (`[data-theme="dark"]`).
   `background_url` values are still honoured so older content keeps rendering.
 - In the CMS, fields that apply to only one layout are shown only when that layout is selected
   (`showIf` in `src/lib/sections.ts`).
+- Figure images hosted on ImageKit are requested at a fixed width (`?tr=w-600` portraits, `w-480`
+  backgrounds) so the homepage does not download full-size originals. URLs that already contain a `tr=`
+  transformation, and other hosts, are left unchanged.
+- The gold glow behind the hero (`.hero-glow`) is a soft gradient in dark mode, positioned so it fades
+  out before the top edge; light mode is unchanged.
 - Layout is responsive: stacked and centred on mobile, two columns from `lg`. Hover/focus animations are
   disabled under `prefers-reduced-motion`.
 

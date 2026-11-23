@@ -219,6 +219,14 @@ body {
   box-decoration-break: clone;
   padding-inline: 0.08em;
 }
+/* Hero glow, dark theme: a blurred gold disc reads as a muddy patch on navy and is clipped
+   under the header. Use a soft gradient, moved down so it fades out before the top edge. */
+[data-theme="dark"] .hero-glow {
+  top: 1rem;
+  background: radial-gradient(circle, rgb(254 220 105 / 0.14) 0%, rgb(254 220 105 / 0.05) 35%, transparent 65%);
+  filter: none;
+}
+
 [data-theme="dark"] .kyd-hl {
   background-image: none;
   color: var(--gold);

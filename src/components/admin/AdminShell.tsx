@@ -45,7 +45,33 @@ const NAV = [
   { href: "/admin/account", label: "Account & security", icon: UserCog },
 ] as const;
 
-export function AdminShell({ children, email, newEnquiries, blogEnabled, siteName }: { children: React.ReactNode; email: string; newEnquiries: number; blogEnabled: boolean; siteName: string }) {
+/** Logo from Settings (same as the public header/footer); site name as text if no logo is set. */
+function Brand({ siteName, logoUrl, logoAlt }: { siteName: string; logoUrl: string; logoAlt: string }) {
+  return logoUrl ? (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={logoUrl} alt={logoAlt || siteName} className="h-9 w-auto" />
+  ) : (
+    <p className="font-semibold text-white">{siteName}</p>
+  );
+}
+
+export function AdminShell({
+  children,
+  email,
+  newEnquiries,
+  blogEnabled,
+  siteName,
+  logoUrl,
+  logoAlt,
+}: {
+  children: React.ReactNode;
+  email: string;
+  newEnquiries: number;
+  blogEnabled: boolean;
+  siteName: string;
+  logoUrl: string;
+  logoAlt: string;
+}) {
   const path = usePathname();
   const [open, setOpen] = useState(false);
   const isActive = (href: string, exact?: boolean) => (exact ? path === href : path === href || path.startsWith(href + "/"));
@@ -83,8 +109,8 @@ export function AdminShell({ children, email, newEnquiries, blogEnabled, siteNam
     <div className="min-h-screen bg-bg lg:grid lg:grid-cols-[16rem_1fr]">
       <aside className="hidden bg-navy lg:sticky lg:top-0 lg:block lg:h-screen lg:overflow-y-auto">
         <div className="border-b border-white/10 px-6 py-5">
-          <p className="font-semibold text-white">{siteName}</p>
-          <p className="text-xs text-white/50">Content manager</p>
+          <Brand siteName={siteName} logoUrl={logoUrl} logoAlt={logoAlt} />
+          <p className="mt-2 text-xs text-white/50">Content manager</p>
         </div>
         {nav}
       </aside>
@@ -93,7 +119,7 @@ export function AdminShell({ children, email, newEnquiries, blogEnabled, siteNam
           <div className="absolute inset-0 bg-navy/60" onClick={() => setOpen(false)} />
           <aside className="absolute inset-y-0 left-0 w-72 overflow-y-auto bg-navy">
             <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-              <p className="font-semibold text-white">{siteName}</p>
+              <Brand siteName={siteName} logoUrl={logoUrl} logoAlt={logoAlt} />
               <button onClick={() => setOpen(false)} className="text-white" aria-label="Close menu">
                 <X />
               </button>

@@ -146,7 +146,7 @@ export function HeroFigures({
       {/* Same background as the standard hero: dotted grid + gold glow. */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
         <div className="grid-bg absolute inset-0 [mask-image:radial-gradient(ellipse_at_top_left,black_20%,transparent_70%)]" />
-        <div className="absolute -right-40 -top-40 h-[34rem] w-[34rem] rounded-full bg-gold/30 blur-3xl" />
+        <div className="hero-glow absolute -right-40 -top-40 h-[34rem] w-[34rem] rounded-full bg-gold/30 blur-3xl" />
       </div>
       <div className="container-site relative grid items-center gap-12 pb-24 pt-10 text-center lg:grid-cols-2 lg:gap-16 lg:pb-24 lg:pt-10 lg:text-left">
         <div className="kyd-hero-content relative z-10">

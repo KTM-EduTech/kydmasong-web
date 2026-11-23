@@ -77,8 +77,23 @@ function heroAction(d: D, key: "primary" | "secondary"): HeroAction | null {
 /** A media-library image (preferred) or, for content saved before 23 Nov 2026, a legacy https URL. */
 function heroImage(f: D, key: "image" | "background", media: MediaMap) {
   const m = media[str(f, `${key}_id`)];
-  if (m) return { url: mediaUrl(m), alt: m.alt };
-  return { url: safeImg(str(f, `${key}_url`)), alt: "" };
+  // Cards are ~220px wide (portrait scales up on hover); 600px covers 2x screens.
+  const width = key === "image" ? 600 : 480;
+  if (m) return { url: imageKitWidth(mediaUrl(m), width), alt: m.alt };
+  return { url: imageKitWidth(safeImg(str(f, `${key}_url`)), width), alt: "" };
+}
+
+/** Ask ImageKit for a resized copy (keeps format and transparency). Other hosts are left as they are. */
+function imageKitWidth(url: string, width: number) {
+  if (!url.startsWith("https://ik.imagekit.io/")) return url;
+  try {
+    const u = new URL(url);
+    if (u.searchParams.has("tr")) return url; // already transformed by the editor
+    u.searchParams.set("tr", `w-${width}`);
+    return u.toString();
+  } catch {
+    return url;
+  }
 }
 
 function Hero({ id, d, media, first }: { id: string; d: D; media: MediaMap; first: boolean }) {
@@ -117,7 +132,7 @@ function Hero({ id, d, media, first }: { id: string; d: D; media: MediaMap; firs
     <section className="relative overflow-hidden">
       <div className="grid-bg pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top_left,black_20%,transparent_70%)]" aria-hidden />
       <div
-        className="pointer-events-none absolute -right-40 -top-40 h-[34rem] w-[34rem] rounded-full bg-gold/30 blur-3xl"
+        className="hero-glow pointer-events-none absolute -right-40 -top-40 h-[34rem] w-[34rem] rounded-full bg-gold/30 blur-3xl"
         aria-hidden
       />
       <div className="container-site relative grid items-center gap-14 pb-20 pt-10 lg:grid-cols-[1.1fr_0.9fr] lg:pt-16">
